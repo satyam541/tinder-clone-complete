@@ -2,7 +2,7 @@ import Home       from "./pages/Home";
 import Dashboard  from "./pages/Dashboard";
 import Onboard    from "./pages/Onboard";
 import {BrowserRouter, Routes,Route} from "react-router-dom";
-
+import React from "react" 
 
 const App = () => {
   return (

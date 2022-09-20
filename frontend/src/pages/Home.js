@@ -1,4 +1,4 @@
-import {React,useState} from 'react'
+import React , {useState} from 'react'
 import Navbar from "../components/Navbar.js"
 import AuthModal from "../components/AuthModal.js"
 function Home() {
