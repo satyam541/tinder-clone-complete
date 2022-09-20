@@ -17,8 +17,8 @@ function Navbar({minimal,authToken,setShowModal,showModal,setIsSignUp}) {
         <div className='logo-container'>
             <img className='logo' src={minimal ? logoDefault:logoLight}/>    
         </div>   
-
-        {!authToken && !minimal && <button className="nav-button" onClick={handleClick} disabled={showModal}>Log in</button>}
+        
+        {!authToken && !minimal && <div><button className="nav-button" onClick={handleClick} disabled={showModal}>Log in</button></div>}
      </nav> 
     </>
   )
