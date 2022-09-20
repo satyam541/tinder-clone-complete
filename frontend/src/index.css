@@ -166,7 +166,10 @@ nav .logo-container .logo {
 .onboard form label {
     margin: 10px 0;
 }
-
+.onboard form .margin-left
+{
+    margin-left: 40px;
+}
 .onboard form .multiple-input-container {
     display: flex;
     flex-direction: row;
