@@ -1,8 +1,10 @@
-const express   =   require('express');
 const PORT      =   8080;
-const app       =   express();
-const mongodb   =   require('mongoose');
+const app       =   require('./app');
+const dotenv = require('dotenv');
 
+dotenv.config({path:"backend/config/config.env"});
+const connectDatabase = require('./config/database');
+// connectDatabase();
 app.listen(PORT,(req,res)=>{
     return console.log("Server listening on port "+PORT);
 })
