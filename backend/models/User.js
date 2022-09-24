@@ -23,7 +23,6 @@ const userSchema =   mongoose.Schema({
     },
     hashed_password:{
         type:String,
-        required:[true,"Please Enter First Name"],
         trim:true
     },
     dob_day:{
@@ -58,3 +57,4 @@ const userSchema =   mongoose.Schema({
 
 
 })
+module.exports  =   mongoose.model("User",userSchema);
