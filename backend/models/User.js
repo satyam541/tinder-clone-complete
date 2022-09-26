@@ -8,17 +8,17 @@ const userSchema =   mongoose.Schema({
     },
     first_name:{
         type:String,
-        required:[true,"Please Enter First Name"],
+        // required:[true,"Please Enter First Name"],
         trim:true
     },
     email:{
         type:String,
-        required:[true,"Please Enter Email Address"],
+        // required:[true,"Please Enter Email Address"],
         trim:true
     },
     img_url:{
         type:String,
-        required:[true,"Please Enter Image Url"],
+        // required:[true,"Please Enter Image Url"],
         trim:true
     },
     hashed_password:{
@@ -27,17 +27,17 @@ const userSchema =   mongoose.Schema({
     },
     dob_day:{
         type:Number,
-        required:[true,"Please Enter Date of Birth Day"],
+        // required:[true,"Please Enter Date of Birth Day"],
         trim:true
     },
     dob_month:{
         type:Number,
-        required:[true,"Please Enter Date of Birth Month"],
+        // required:[true,"Please Enter Date of Birth Month"],
         trim:true
     },
     dob_year:{
         type:Number,
-        required:[true,"Please Enter Date of Birth Year"],
+        // required:[true,"Please Enter Date of Birth Year"],
         trim:true
     },
     show_gender:{
@@ -46,12 +46,12 @@ const userSchema =   mongoose.Schema({
     },
     gender_identity:{
         type:String,
-        required:[true,"Please Select Gender Identity"],
+        // required:[true,"Please Select Gender Identity"],
         trim:true
     },
     gender_interest:{
         type:String,
-        required:[true,"Please Select Gender Interest"],
+        // required:[true,"Please Select Gender Interest"],
         trim:true
     },
 

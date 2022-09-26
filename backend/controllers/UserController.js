@@ -1,11 +1,22 @@
-const User  = require("../models/User")
+const User              = require("../models/User")
 const asyncErrorHandler = require('../middleware/asyncErrorHandler');
-const ErrorHandler = require('../utils/errorhandler');
-const APiFeatures = require('../utils/apifeature');
-
+const ErrorHandler      = require('../utils/errorhandler');
+const APiFeatures       = require('../utils/apifeature');
+const {v4:uuidv4}       = require("uuid");
+const bcrypt            = require("bcrypt");
 exports.createUser = asyncErrorHandler(async (req,res,next) =>{
+    const generatedUserId       = uuidv4();
+    const hashedPassword        =   await bcrypt.hash(req.body.password,10);
+    updatedData                 = {...req.body , "uuid":generatedUserId,"hashedPassword":hashedPassword}
+    existingUser                =  await User.findOne({email:updatedData.email});
+    if(existingUser)
+    {
+        return res.status(409).send("User already exists");
+    }
 
-    const user   =   await User.create(req.body);
+    return res.status(201).json(updatedData);
+    
+    const user   =   await User.create(updatedData);
 
     res.status(201).json({success: 'User created successfully',user});
 
