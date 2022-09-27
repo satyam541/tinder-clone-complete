@@ -9,7 +9,6 @@ const AuthModal = ({setShowModal,signUp})=>{
   const [confirmPassword,setConfirmPassword]  = useState(null)
   const [error,setError]  = useState(null)
   let navigate = useNavigate();
-  console.log(email)
   const handleClick = ()=>{
   
     setShowModal(false);
@@ -26,7 +25,8 @@ const AuthModal = ({setShowModal,signUp})=>{
           setError("passwords needs to match")
           return
       }
-      const response  = await axios.post("http://localhost:4000/signup",{email,password})
+      const response  = await axios.post("http://localhost:4000/app/user/create",{email,password})
+      // console.log(response);
       const success   = response.status ==  201;
       
       if(success) navigate("/onboard")

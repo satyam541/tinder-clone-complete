@@ -4,22 +4,30 @@ const ErrorHandler      = require('../utils/errorhandler');
 const APiFeatures       = require('../utils/apifeature');
 const {v4:uuidv4}       = require("uuid");
 const bcrypt            = require("bcrypt");
+const jwt               = require('jsonwebtoken');
 exports.createUser = asyncErrorHandler(async (req,res,next) =>{
     const generatedUserId       = uuidv4();
     const hashedPassword        =   await bcrypt.hash(req.body.password,10);
-    updatedData                 = {...req.body , "uuid":generatedUserId,"hashedPassword":hashedPassword}
+    updatedData                 = {...req.body , "uuid":generatedUserId,"hashed_password":hashedPassword}
     existingUser                =  await User.findOne({email:updatedData.email});
     if(existingUser)
     {
         return res.status(409).send("User already exists");
     }
-
-    return res.status(201).json(updatedData);
-    
-    const user   =   await User.create(updatedData);
-
-    res.status(201).json({success: 'User created successfully',user});
-
+    try
+    {
+        const sanitizedEmail    =   updatedData.email.toLowerCase();
+        const insertedUser      =   await User.create(updatedData);
+        let secret      = "secret";
+        const token             =   jwt.sign({user_id:insertedUser.id,sanitizedEmail},secret,{
+            expiresIn: 60 * 24,
+        });
+        return res.status(201).json({success: 'User created successfully',insertedUser,userId:generatedUserId
+        ,token,email:sanitizedEmail});
+    }
+    catch (err) {
+        console.log(err);
+    }
 });
 
 exports.getAllUsers = asyncErrorHandler(async (req,res)  => {

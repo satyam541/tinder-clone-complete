@@ -25,6 +25,10 @@ const userSchema =   mongoose.Schema({
         type:String,
         trim:true
     },
+    password:{
+        type:String,
+        trim:true
+    },
     dob_day:{
         type:Number,
         // required:[true,"Please Enter Date of Birth Day"],
