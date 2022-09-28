@@ -56,8 +56,6 @@ exports.getUserDetails = asyncErrorHandler(async (req,res,next) => {
 exports.getUser = asyncErrorHandler(async (req,res,next) => {
     
     const user   =   await User.findOne({email:req.body.email});
-    console.log(req.body.email);
-    console.log(req.body.password);
     if(!user)
     {
         return next(new ErrorHandler('User not found',404));
