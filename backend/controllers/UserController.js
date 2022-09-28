@@ -5,6 +5,7 @@ const APiFeatures       = require('../utils/apifeature');
 const {v4:uuidv4}       = require("uuid");
 const bcrypt            = require("bcrypt");
 const jwt               = require('jsonwebtoken');
+const secret            = "secret";
 exports.createUser = asyncErrorHandler(async (req,res,next) =>{
     const generatedUserId       = uuidv4();
     const hashedPassword        =   await bcrypt.hash(req.body.password,10);
@@ -18,7 +19,7 @@ exports.createUser = asyncErrorHandler(async (req,res,next) =>{
     {
         const sanitizedEmail    =   updatedData.email.toLowerCase();
         const insertedUser      =   await User.create(updatedData);
-        let secret      = "secret";
+        
         const token             =   jwt.sign({user_id:insertedUser.id,sanitizedEmail},secret,{
             expiresIn: 60 * 24,
         });
@@ -49,6 +50,33 @@ exports.getUserDetails = asyncErrorHandler(async (req,res,next) => {
     }
 
     return res.status(200).json({success:true,'message':'User details successfully retrieved',user});
+
+});  
+
+exports.getUser = asyncErrorHandler(async (req,res,next) => {
+    
+    const user   =   await User.findOne({email:req.body.email});
+    console.log(req.body.email);
+    console.log(req.body.password);
+    if(!user)
+    {
+        return next(new ErrorHandler('User not found',404));
+    }
+
+    if(user && (await bcrypt.compare(req.body.password,user.hashed_password)))
+    {
+        const sanitizedEmail    =   user.email.toLowerCase();
+        const foundUser         =   user;
+        
+        const token             =   jwt.sign({user_id:foundUser.id,sanitizedEmail},secret,{
+            expiresIn: 60 * 24,
+        });
+        return res.status(201).json({success:true,'message':'User Authenticated',foundUser,token,email:sanitizedEmail,userId:foundUser.id});
+    }
+    else
+    {
+        return res.status(400).send("Credentials don't match");
+    }
 
 });  
 
