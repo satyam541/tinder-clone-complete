@@ -1,14 +1,26 @@
 import React, { useState } from 'react'
 import Navbar from "../components/Navbar"
 import { useCookies } from "react-cookie"
+import { useNavigate } from "react-router-dom"
+import axios from "axios"
 const Onboard = () => {
   const [cookies,setCookies,removeCookies]    = useCookies(['user'])  
   const [formData,setFormData] =  useState({user_id:cookies.UserId,first_name:"",dob_day:"",dob_month:"",dob_year:""
   ,show_gender:false,gender_identity:"man",gender_interest:"woman",email:"",url:"",about:"",matches:[]});
-
-  const handleClick = () => {
-
-
+  let navigate = useNavigate();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try
+    {
+      const response  = await axios.put(`http://localhost:4000/user/${formData.user_id}`,{formData})
+      const success   = response.status ===200;
+      if(success) navigate ("/dashboard");
+    }
+    catch (err)
+    {
+      console.log(err);
+    }
+    // await axios.put();
 
   }
 
@@ -31,7 +43,7 @@ const Onboard = () => {
       <div className='onboard'>
         <h2> CREATE Account </h2>
 
-        <form onSubmit={handleClick}>
+        <form onSubmit={handleSubmit}>
 
           <section>
               <label htmlFor='first_name'>First Name</label>

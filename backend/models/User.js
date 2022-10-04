@@ -16,7 +16,7 @@ const userSchema =   mongoose.Schema({
         // required:[true,"Please Enter Email Address"],
         trim:true
     },
-    img_url:{
+    url:{
         type:String,
         // required:[true,"Please Enter Image Url"],
         trim:true

@@ -17,7 +17,28 @@ h2 {
 .primary-title {
     font-size: 90px;
     color: rgb(255, 255, 255);
+    
 }
+
+.text-rainbow-animation {
+    font-family:arial black;
+    font-size:70px;
+    background-image: 
+      linear-gradient(to right, rgb(247, 57, 57),rgb(237, 180, 72),rgb(235, 235, 101),rgb(90, 237, 90),rgb(165, 58, 241),violet, rgb(240, 94, 94)); 
+    background-clip: text;
+      -webkit-text-fill-color: transparent;  
+    animation: rainbow-animation 200s linear infinite;
+  }
+  
+  @keyframes rainbow-animation {
+      to {
+          background-position: 4500vh;
+      }
+  }
+
+/* .primary-title p {
+    background-image: linear-gradient(to left, #e05ee0, #85649d, #51bb51, #5a6c26, #84aeeb, #957232, #535b31); 
+} */
 
 .primary-button {
     color: rgb(255,255,255);

@@ -20,10 +20,10 @@ exports.createUser = asyncErrorHandler(async (req,res,next) =>{
         const sanitizedEmail    =   updatedData.email.toLowerCase();
         const insertedUser      =   await User.create(updatedData);
         
-        const token             =   jwt.sign({user_id:insertedUser.id,sanitizedEmail},secret,{
+        const token             =   jwt.sign({user_id:generatedUserId,sanitizedEmail},secret,{
             expiresIn: 60 * 24,
         });
-        return res.status(201).json({success: 'User created successfully',insertedUser,userId:generatedUserId
+        return res.status(201).json({success: 'User created successfully',insertedUser,userId:insertedUser.id
         ,token,email:sanitizedEmail});
     }
     catch (err) {
@@ -79,7 +79,7 @@ exports.getUser = asyncErrorHandler(async (req,res,next) => {
 });  
 
 exports.updateUser   =   asyncErrorHandler(async (req,res,next) => {
-
+    console.log(req.body.formData);
     let user = await User.findById(req.params.id);
 
     if(!user)
@@ -87,7 +87,7 @@ exports.updateUser   =   asyncErrorHandler(async (req,res,next) => {
         return next(new ErrorHandler('User not found',500));
     }
 
-    user =   await Product.findByIdAndUpdate(req.params.id, req.body,{new:true,
+    user =   await User.findByIdAndUpdate(req.params.id, req.body.formData,{new:true,
     runValidators:true,useFindAndModify:false});
 
 

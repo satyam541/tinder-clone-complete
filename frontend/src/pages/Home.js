@@ -15,7 +15,7 @@ function Home() {
     <Navbar minimal={false} authToken={false} setShowModal={setShowModal} showModal={showModal}
     setIsSignUp={setIsSignUp}  />
       <div className="home">
-        <h1 className='primary-title'>Swipe Right</h1>
+        <h1 className='primary-title'> <div className='text-rainbow-animation'> Swipe Right </div></h1>
         <button className='primary-button' onClick={userAction}>
         {authToken ? "Sign out": "Create Account"}
 
