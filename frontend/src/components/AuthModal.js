@@ -30,6 +30,7 @@ const AuthModal = ({setShowModal,signUp})=>{
       console.log(response.data);
       // setCookies('Email',response.data.email)
       setCookies("UserId",response.data.userId)
+      setCookies("Email",response.data.email)
       setCookies("User",response.data.userObject)
       setCookies('AuthToken',response.data.token)
       // console.log(response);

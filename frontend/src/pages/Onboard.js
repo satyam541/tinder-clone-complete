@@ -6,7 +6,7 @@ import axios from "axios"
 const Onboard = () => {
   const [cookies,setCookies,removeCookies]    = useCookies(['user'])  
   const [formData,setFormData] =  useState({user_id:cookies.UserId,first_name:"",dob_day:"",dob_month:"",dob_year:""
-  ,show_gender:false,gender_identity:"man",gender_interest:"woman",email:"",url:"",about:"",matches:[]});
+  ,show_gender:false,gender_identity:"man",gender_interest:"woman",email:cookies.email,url:"",about:"",matches:[]});
   let navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -58,6 +58,9 @@ const Onboard = () => {
                   required={true} value={formData.dob_month} onChange={handleChange}  />
                 <input type="number" name="dob_year" placeholder="YYYY"
                   required={true} value={formData.dob_year} onChange={handleChange}  />
+                <input type="hidden" name="email"
+                  value={formData.email}  />
+                  
               </div>
               <label htmlFor='Gender'>Gender</label>
               <div className='multiple-input-container'>
