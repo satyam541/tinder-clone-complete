@@ -58,6 +58,11 @@ const userSchema =   mongoose.Schema({
         // required:[true,"Please Select Gender Interest"],
         trim:true
     },
+    matches:{
+        type:[String],
+        // required:[true,"Please Select Gender Interest"],
+        trim:true
+    },
 
 
 })

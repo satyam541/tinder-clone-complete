@@ -4,40 +4,78 @@ import TinderCard from "react-tinder-card"
 import { useCookies } from "react-cookie"
 import axios from "axios"
 function Dashboard() {
-  const [cookies,setCookies,removeCookies]    = useCookies(['user'])  
-  const [user,setUser]                        = useState(null);
+  const [cookies, setCookies, removeCookies] = useCookies(['user'])
+  const [user, setUser] = useState(null);
+  const [genderedUsers, setGenderedUsers] = useState([]);
+  const [lastDirection, setLastDirection] = useState()
   const db = [
     {
 
-      name: 'Scarlet',
+      first_name: 'Scarlet',
       url: '/images/scarlet.webp'
     },
 
     {
-      name: 'Elizabeth',
+      first_name: 'Elizabeth',
       url: '/images/elizabeth.webp'
     },
 
     {
-      name: 'Monica Hall',
+      first_name: 'Monica Hall',
       url: '/images/monica.jpg'
     },
 
     {
-      name: 'Megan',
+      first_name: 'Megan',
       url: '/images/megan.webp'
     },
 
     {
-      name: 'Katrina',
+      first_name: 'Katrina',
       url: '/images/katrina.webp'
     }
   ]
   const characters = db
-  const [lastDirection, setLastDirection] = useState()
-  const swiped = (direction, nameToDelete) => {
-    console.log('removing: ' + nameToDelete)
+  const getUser = async () => {
+    try {
+      const response = await axios.get(`http://localhost:4000/user/${cookies.UserId}`);
+      if (response.data.user !== null) {
+        setUser(response.data.user);
+      }
+    }
+    catch (err) {
+      console.log(err)
+    }
+
+
+  }
+  const getGenderedUsers = async () => {
+    try {
+      const response = await axios.get(`http://localhost:4000/get/gendered/users/${user.user_id}`);
+      setGenderedUsers(response.data.genderedUsers);
+    }
+    catch (err) {
+      console.log(err)
+    }
+  }
+  const swiped = (direction, swipedUser) => {
+    // console.log('removing: ' + swipedUser)
+    if(direction === 'right')
+    {
+      updateMatches(swipedUser);
+    }
     setLastDirection(direction)
+  }
+
+  const updateMatches = async (swipedUser) => {
+    console.log(swipedUser);
+    try {
+      const response = await axios.put(`http://localhost:4000/add/matches`,{'id':user.user_id,'swiped_user_id':swipedUser});
+      getUser();
+    }
+    catch (err) {
+      console.log(err)
+    }
   }
 
   const outOfFrame = (name) => {
@@ -45,22 +83,19 @@ function Dashboard() {
   }
 
 
-    const getUser = async ()  => {
-      try {
-          const response = await axios.get(`http://localhost:4000/user/${cookies.UserId}`);
-          setUser(response.data.user);
-      }
-      catch (err)
+
+
+  useEffect(() => {
+    getUser()
+
+  }, [])
+
+  useEffect(() => {
+      if(user)
       {
-        const response=err;
-        setUser(response);
+      getGenderedUsers()
       }
-    
-    
-    }
-    useEffect(() => {
-      getUser();
-    },[])
+    },[user])
 
   return (
     <>
@@ -69,15 +104,15 @@ function Dashboard() {
         <div className='swipe-container'>
           <div className='card-container'>
 
-            {characters.map((character) =>
-              <TinderCard className='swipe' key={character.name} onSwipe={(dir) => swiped(dir, character.name)} onCardLeftScreen={() => outOfFrame(character.name)}>
+            {genderedUsers.map((character) =>
+              <TinderCard className='swipe' key={character.first_name} onSwipe={(dir) => swiped(dir, character.user_id)} onCardLeftScreen={() => outOfFrame(character.first_name)}>
                 <div style={{ backgroundImage: 'url(' + character.url + ')' }} className='card'>
-                  <h3>{character.name}</h3>
+                  <h3>{character.first_name}</h3>
                 </div>
               </TinderCard>
             )}
             <div className='swipe-info'>
-              {lastDirection ? <p> You swiped {lastDirection}</p> :<p/>}
+              {lastDirection ? <p> You swiped {lastDirection}</p> : <p />}
             </div>
 
           </div>

@@ -5,6 +5,7 @@ const APiFeatures       = require('../utils/apifeature');
 const {v4:uuidv4}       = require("uuid");
 const bcrypt            = require("bcrypt");
 const jwt               = require('jsonwebtoken');
+const { findOne } = require("../models/User");
 const secret            = "secret";
 exports.createUser = asyncErrorHandler(async (req,res,next) =>{
     const generatedUserId       = uuidv4();
@@ -51,6 +52,55 @@ exports.getUserDetails = asyncErrorHandler(async (req,res,next) => {
     return res.status(200).json({success:true,'message':'User details successfully retrieved',user});
 
 });  
+
+exports.getGenderedUsers = asyncErrorHandler(async (req,res,next) => {
+
+    const user   =   await User.findById(req.params.user_id);
+    if(!user)
+    {
+        return next(new ErrorHandler('Gender interest not retrieved',404));
+    }
+    // const alreadyMatched    =   user.matches;
+    // console.log(alreadyMatched);
+    const genderedUsers     =   await User.find({"gender_identity":user.gender_interest});
+    return res.status(200).json({success:true,'message':'Gendered Users Retrieved',genderedUsers:genderedUsers});
+
+
+});
+
+exports.addSwipedMatches = asyncErrorHandler(async (req,res,next) => {
+
+    const user   =   await User.findById(req.body.id);
+    let matches;
+    if(!user)
+    {
+        return next(new ErrorHandler('User not found',404));
+    }
+    if(typeof user.matches === 'undefined' || user.matches === null || user.matches.length === 0)
+    {
+        matches =   req.body.swiped_user_id;
+    }
+    else
+    {
+        if(!user.matches.includes(req.body.swiped_user_id))
+        {
+            matches     =   user.matches;
+            console.log(matches)
+            matches.push(req.body.swiped_user_id);
+            console.log(matches);
+        }
+        else
+        {
+            matches =   user.matches;
+        }
+    }
+    await User.findByIdAndUpdate(req.body.id,{"matches":matches},{new:true,
+        runValidators:true,useFindAndModify:false})
+        
+    res.status(200).json({success:true,
+        message:"User matches successfully updated",user});
+
+});
 
 exports.getUser = asyncErrorHandler(async (req,res,next) => {
     
