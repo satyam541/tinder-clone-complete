@@ -32,7 +32,6 @@ const Onboard = () => {
         [name]:value
     })) 
     
-    console.log(formData);
   }
 
   return (

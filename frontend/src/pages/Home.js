@@ -6,7 +6,6 @@ function Home() {
   const [signUp,setIsSignUp] = useState(null);
   const authToken=false;
   const userAction =  ()  =>{
-    console.log('userAction');
     setShowModal(true);
     setIsSignUp(true);
   }

@@ -5,7 +5,6 @@ import logoDefault from "../images/logoDefault.png"
 function Navbar({minimal,authToken,setShowModal,showModal,setIsSignUp}) {
 
   const handleClick = () => {
-    console.log('navbar')
     setShowModal(true)
     setIsSignUp(false)
   

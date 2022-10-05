@@ -23,7 +23,7 @@ exports.createUser = asyncErrorHandler(async (req,res,next) =>{
         const token             =   jwt.sign({user_id:generatedUserId,sanitizedEmail},secret,{
             expiresIn: 60 * 24,
         });
-        return res.status(201).json({success: 'User created successfully',insertedUser,userId:insertedUser.id
+        return res.status(201).json({success: 'User created successfully',userId:insertedUser.id
         ,token,email:sanitizedEmail});
     }
     catch (err) {
@@ -41,7 +41,6 @@ exports.getAllUsers = asyncErrorHandler(async (req,res)  => {
 })
 
 exports.getUserDetails = asyncErrorHandler(async (req,res,next) => {
-    
     const user   =   await User.findById(req.params.id);
 
     if(!user)
@@ -69,7 +68,7 @@ exports.getUser = asyncErrorHandler(async (req,res,next) => {
         const token             =   jwt.sign({user_id:foundUser.id,sanitizedEmail},secret,{
             expiresIn: 60 * 24,
         });
-        return res.status(201).json({success:true,'message':'User Authenticated',foundUser,token,email:sanitizedEmail,userId:foundUser.id});
+        return res.status(201).json({success:true,'message':'User Authenticated',token,email:sanitizedEmail,userId:foundUser.id});
     }
     else
     {
