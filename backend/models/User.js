@@ -59,7 +59,7 @@ const userSchema =   mongoose.Schema({
         trim:true
     },
     matches:{
-        type:[String],
+        type:Array,
         // required:[true,"Please Select Gender Interest"],
         trim:true
     },

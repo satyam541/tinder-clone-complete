@@ -11,7 +11,7 @@ function ChatContainer(props) {
         <button className='option'>Chat</button>
       </div>
 
-      <MatchesDisplay/>
+      <MatchesDisplay matches={props.user.matches}/>
       
       
       <ChatDisplay/>

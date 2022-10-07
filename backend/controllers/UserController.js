@@ -33,10 +33,11 @@ exports.createUser = asyncErrorHandler(async (req,res,next) =>{
 });
 
 exports.getAllUsers = asyncErrorHandler(async (req,res)  => {
-
-    const apiFeature    =   new APiFeatures(User.find(),req.query).search();
-    const users         =   await apiFeature.query;
-
+    const userIds   =   JSON.parse(req.query.user_id);
+    const pipeline  =  [
+        {'$match':{'user_id':{'$in':userIds}}}
+    ] 
+    const users             =  await User.aggregate(pipeline);
     res.status(200).json({success:true,users});
 
 })
@@ -78,16 +79,23 @@ exports.addSwipedMatches = asyncErrorHandler(async (req,res,next) => {
     }
     if(typeof user.matches === 'undefined' || user.matches === null || user.matches.length === 0)
     {
-        matches =   req.body.swiped_user_id;
+        matches =   {"user_id":req.body.swiped_user_id};
     }
     else
     {
-        if(!user.matches.includes(req.body.swiped_user_id))
+        let matchExists = false;
+        for(let i=0; i<user.matches.length; i++)
+        {
+            if(user.matches[i].user_id===req.body.swiped_user_id)
+            {
+                matchExists = true;
+                break;
+            }
+        }
+        if(!matchExists)
         {
             matches     =   user.matches;
-            console.log(matches)
-            matches.push(req.body.swiped_user_id);
-            console.log(matches);
+            matches.push({"user_id":req.body.swiped_user_id});
         }
         else
         {

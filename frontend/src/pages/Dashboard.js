@@ -68,7 +68,6 @@ function Dashboard() {
   }
 
   const updateMatches = async (swipedUser) => {
-    console.log(swipedUser);
     try {
       const response = await axios.put(`http://localhost:4000/add/matches`,{'id':user.user_id,'swiped_user_id':swipedUser});
       getUser();
