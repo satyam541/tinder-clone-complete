@@ -28,9 +28,8 @@ function MatchesDisplay(props) {
 
   return (
     <>
-      {matchedProfiles.length !== 0 &&
       <div className='matches-display'>
-        {matchedProfiles.map((match,index)=>
+        {matchedProfiles.length !== 0 && matchedProfiles.map((match,index)=>
           <div key={index} className="match-card">
       
           <div className='img-container'>
@@ -40,7 +39,6 @@ function MatchesDisplay(props) {
         </div>
         )}
       </div>
-      }
     </>
   )
 }
