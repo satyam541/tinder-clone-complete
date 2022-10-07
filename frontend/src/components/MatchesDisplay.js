@@ -3,8 +3,7 @@ import axios from "axios"
 import { match } from 'assert';
 
 function MatchesDisplay(props) {
-
-  const matchedUserIds  = props.matches.map(({user_id})=>user_id);
+  const matchedUserIds  = props.matches!== null ? props.matches.map(({user_id})=>user_id) : [];
   const [matchedProfiles,setMatchedProfiles] = useState([]);
   const getMatches= async ()=>{
 
@@ -21,24 +20,28 @@ function MatchesDisplay(props) {
   }
 
   useEffect(() => {
+    if(matchedProfiles.length === 0) {
     getMatches();
+    }    
 
-    // console.log(matchedProfiles);
-
-  },[])
+  },[matchedProfiles])
 
   return (
-    <div className='matches-display'>
-        {/* {matchedProfiles.map((match,index)=>{
+    <>
+      {matchedProfiles.length !== 0 &&
+      <div className='matches-display'>
+        {matchedProfiles.map((match,index)=>
           <div key={index} className="match-card">
-            
-            <div className='img-container'>
-              <img src={match.url} alt={match.first_name + " profile"} />
-            </div>
-            <h3>{match.first_name}</h3>
+      
+          <div className='img-container'>
+            <img src={match.url} alt={match.first_name + " profile"} />
           </div>
-        })} */}
-    </div>
+          <h3>{match.first_name}</h3>
+        </div>
+        )}
+      </div>
+      }
+    </>
   )
 }
 
