@@ -63,9 +63,13 @@ exports.getGenderedUsers = asyncErrorHandler(async (req,res,next) => {
     }
     const userIds   =   user.matches!== null ? user.matches.map(({user_id})=>user_id) : [];
     const pipeline  =  [
-        {'$match':{'user_id':{'$nin':userIds}}}
+        {'$match':{'user_id':{'$nin':userIds},"gender_identity":user.gender_interest}}
     ] 
     const genderedUsers             =  await User.aggregate(pipeline);
+    console.log(genderedUsers);
+    // const alreadyMatched    =   user.matches;
+    // console.log(alreadyMatched);
+    // const genderedUsers     =   await User.find({"gender_identity":user.gender_interest});
     return res.status(200).json({success:true,'message':'Gendered Users Retrieved',genderedUsers:genderedUsers});
 
 
