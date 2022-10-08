@@ -1,7 +1,7 @@
 import React from 'react'
 import Chat from "../components/Chat.js"
 import ChatInput from "../components/ChatInput.js"
-function ChatDisplay() {
+function ChatDisplay(props) {
   return (
     <>
     <Chat/>

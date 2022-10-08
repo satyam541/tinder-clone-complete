@@ -5,7 +5,6 @@ const APiFeatures       = require('../utils/apifeature');
 const {v4:uuidv4}       = require("uuid");
 const bcrypt            = require("bcrypt");
 const jwt               = require('jsonwebtoken');
-const { findOne } = require("../models/User");
 const secret            = "secret";
 exports.createUser = asyncErrorHandler(async (req,res,next) =>{
     const generatedUserId       = uuidv4();
@@ -66,7 +65,6 @@ exports.getGenderedUsers = asyncErrorHandler(async (req,res,next) => {
         {'$match':{'user_id':{'$nin':userIds},"gender_identity":user.gender_interest}}
     ] 
     const genderedUsers             =  await User.aggregate(pipeline);
-    console.log(genderedUsers);
     // const alreadyMatched    =   user.matches;
     // console.log(alreadyMatched);
     // const genderedUsers     =   await User.find({"gender_identity":user.gender_interest});
