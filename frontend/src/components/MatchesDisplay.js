@@ -20,11 +20,10 @@ function MatchesDisplay(props) {
   }
 
   useEffect(() => {
-    if(matchedProfiles.length === 0) {
+    
     getMatches();
-    }    
 
-  },[matchedProfiles])
+  },[props.matches])
 
   return (
     <>
