@@ -1,6 +1,5 @@
 import React, { useEffect,useState } from 'react'
 import axios from "axios"
-import { match } from 'assert';
 
 function MatchesDisplay(props) {
   const matchedUserIds  = props.matches!== null ? props.matches.map(({user_id})=>user_id) : [];
@@ -22,13 +21,13 @@ function MatchesDisplay(props) {
   const setClickedUser = async (user) => { 
 
     await props.setClickedUser(user);
-    try {
-      const response = await axios.get(`http://localhost:4000/get/chats`,{params:{from_id:props.userId,to_id:user.user_id}});
+    // try {
+    //   const response = await axios.get(`http://localhost:4000/get/chats`,{params:{from_id:props.userId,to_id:user.user_id}});
       
-    }
-    catch (err) {
-      console.log(err)
-    }
+    // }
+    // catch (err) {
+    //   console.log(err)
+    // }
   }
 
   useEffect(() => {

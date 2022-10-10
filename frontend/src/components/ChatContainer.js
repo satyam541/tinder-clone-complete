@@ -5,18 +5,18 @@ import ChatDisplay from "../components/ChatDisplay.js"
 function ChatContainer(props) {
   const [clickedUser,setClickedUser] = useState(null);
 
-  const userClicked = ()  =>{
+  // const userClicked = ()  =>{
 
-    console.log(clickedUser);
+  //   console.log(clickedUser);
   
-  }
+  // }
   
 
-  useEffect(() =>{
+  // useEffect(() =>{
 
-    userClicked();
+  //   userClicked();
 
-  },[clickedUser])
+  // },[clickedUser])
 
 
 
