@@ -1,6 +1,6 @@
 import React, { useEffect,useState } from 'react'
 import axios from "axios"
-
+import ucFirst from "ucfirst";
 function MatchesDisplay(props) {
   const matchedUserIds  = props.matches!== null ? props.matches.map(({user_id})=>user_id) : [];
   const [matchedProfiles,setMatchedProfiles] = useState([]);
@@ -45,7 +45,7 @@ function MatchesDisplay(props) {
           <div className='img-container'>
             <img src={match.url} alt={match.first_name + " profile"} />
           </div>
-          <h3>{match.first_name}</h3>
+          <h3>{ucFirst(match.first_name)}</h3>
         </div>
         )}
       </div>

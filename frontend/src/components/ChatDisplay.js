@@ -7,12 +7,26 @@ function ChatDisplay(props) {
   const [userMessages,setUserMessages]                = useState(null);
   const [clickedUserMessages,setClickedUserMessages]  = useState(null);
 
-  const getMessages= async (from_id,to_id)=>{
+  const getUserMessages= async ()=>{
 
 
     try {
 
-      const response = await axios.get(`http://localhost:4000/get/chats`,{params:{from_id:from_id,to_id:to_id}});
+      const response = await axios.get(`http://localhost:4000/get/chats`,{params:{from_id:props.user.user_id,to_id:props.clickedUser.user_id}});
+      return response.data.chats;
+      // const response = await axios.get(`http://localhost:4000/users`,{params:{user_id: JSON.stringify(matchedUserIds)}});
+    }
+    catch (err) {
+      console.log(err)
+    }
+
+  }
+  const getClickedUserMessages= async (from_id,to_id)=>{
+
+
+    try {
+
+      const response = await axios.get(`http://localhost:4000/get/chats`,{params:{from_id:props.clickedUser.user_id,to_id:props.user.user_id}});
       return response.data.chats;
       // const response = await axios.get(`http://localhost:4000/users`,{params:{user_id: JSON.stringify(matchedUserIds)}});
     }
@@ -24,11 +38,11 @@ function ChatDisplay(props) {
 
 
   useEffect(() => {
-    getMessages(props.user.user_id,props.clickedUser.user_id).then(function(result){
+    getUserMessages().then(function(result){
       setUserMessages(result);
     });
     
-    getMessages(props.clickedUser.user_id,props.user.user_id).then(function(result){
+    getClickedUserMessages().then(function(result){
       setClickedUserMessages(result);
     });
   },[props.clickedUser])
@@ -57,11 +71,12 @@ function ChatDisplay(props) {
       messages.push(formattedMessage);
     })
   }
-  console.log(messages);
+  const descendingOrderMessages = messages.sort((a,b)=>a.timestamp.localeCompare(b.timestamp))
+  // console.log(descendingOrderMessages);
   return (
     <>
-    <Chat/>
-    <ChatInput/>
+    <Chat descendingOrderMessages={descendingOrderMessages} />
+    <ChatInput user={props.user} clickedUser={props.clickedUser} getUserMessages={getUserMessages} getClickedUserMessages={getClickedUserMessages} />
     </>
   )
 }

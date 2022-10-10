@@ -11,8 +11,8 @@ exports.getChats = asyncErrorHandler(async (req,res,next) =>{
 exports.sendMessage = asyncErrorHandler(async (req,res,next) =>{
 
     const chat  = await Chat.create(req.body);
-    return res.status(200).json({data:chat,message:"Chat added"});
     console.log(req.body);
+    return res.status(200).json({message:"Chat added",chat:chat});
     // const chats   = Chat.find(user_id);
     // return res.status(200).json({success:true,'message':'User chats successfully retrieved',chats});
 
