@@ -15,7 +15,7 @@ const addMessage  = async ()  =>{
     const response = await axios.post(`http://localhost:4000/send/message`,{timestamp:new Date().toISOString(),from_user_id:userId,to_user_id:clickedUserId,message:textArea});
     props.getUserMessages();
     props.getClickedUserMessages();
-    
+    setTextArea("");
     // const response = await axios.get(`http://localhost:4000/users`,{params:{user_id: JSON.stringify(matchedUserIds)}});
   }
   catch (err) {

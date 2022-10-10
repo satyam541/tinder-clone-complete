@@ -45,7 +45,7 @@ function ChatDisplay(props) {
     getClickedUserMessages().then(function(result){
       setClickedUserMessages(result);
     });
-  },[props.clickedUser])
+  },[getUserMessages,getClickedUserMessages])
 
   const messages  = [];
   if(userMessages!==null)
