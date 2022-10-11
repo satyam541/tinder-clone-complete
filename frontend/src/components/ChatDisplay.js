@@ -53,6 +53,7 @@ function ChatDisplay(props) {
     userMessages.forEach(userMessage=>{
       const formattedMessage          = {}
       formattedMessage['name']        = props.user.first_name;
+      formattedMessage['user_id']     = props.user.user_id;
       formattedMessage['url']         = props.user.url;
       formattedMessage['message']     = userMessage.message;
       formattedMessage['timestamp']   = userMessage.timestamp;
@@ -65,6 +66,7 @@ function ChatDisplay(props) {
     clickedUserMessages.forEach(clickedUserMessage=>{
       const formattedMessage          = {}
       formattedMessage['name']        = props.clickedUser.first_name;
+      formattedMessage['user_id']     = props.clickedUser.user_id;
       formattedMessage['url']         = props.clickedUser.url;
       formattedMessage['message']     = clickedUserMessage.message;
       formattedMessage['timestamp']   = clickedUserMessage.timestamp;
@@ -72,10 +74,9 @@ function ChatDisplay(props) {
     })
   }
   const descendingOrderMessages = messages.sort((a,b)=>a.timestamp.localeCompare(b.timestamp))
-  // console.log(descendingOrderMessages);
   return (
     <>
-    <Chat descendingOrderMessages={descendingOrderMessages} />
+    <Chat descendingOrderMessages={descendingOrderMessages} clickedUser={props.clickedUser} />
     <ChatInput user={props.user} clickedUser={props.clickedUser} getUserMessages={getUserMessages} getClickedUserMessages={getClickedUserMessages} />
     </>
   )

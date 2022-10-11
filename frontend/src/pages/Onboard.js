@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from "../components/Navbar"
 import { useCookies } from "react-cookie"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
-const Onboard = () => {
+const Onboard = (props) => {
   const [cookies,setCookies,removeCookies]    = useCookies(['user'])  
   const [formData,setFormData] =  useState({user_id:cookies.UserId,first_name:"",dob_day:"",dob_month:"",dob_year:""
   ,show_gender:false,gender_identity:"man",gender_interest:"woman",email:cookies.email,url:"",about:"",matches:[]});
@@ -33,6 +33,11 @@ const Onboard = () => {
     })) 
     
   }
+
+
+  useEffect(()=>{
+    props.setIsLoading(false)
+  })
 
   return (
     <>
@@ -98,6 +103,7 @@ const Onboard = () => {
           <section>
             <label htmlFor='url'>Profile Photo</label>
             <input type="url" name='url' id='url' onChange={handleChange} required={true} />
+            {/* <input type="file" name="file" accept=".jpg, .jpeg, .png" id='file'/> */}
             <div className='photo-container'>
                 {formData.url && <img src={formData.url} alt="profile pic preview" />}
             </div>
