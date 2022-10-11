@@ -22,7 +22,7 @@ function ChatContainer(props) {
 
   return (
     <div className='chat-container'>
-      <ChatHeader user={props.user} />
+      <ChatHeader user={props.user} setIsLoading={props.setIsLoading} />
       <div>
         <button className='option' onClick={()=>setClickedUser(null)}>Matches</button>
         <button className='option' disabled={clickedUser ? false :true} >Chat</button>

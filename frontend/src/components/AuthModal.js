@@ -2,8 +2,9 @@ import React,{useState} from "react"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
 import { useCookies } from "react-cookie"
-
-const AuthModal = ({setShowModal,signUp})=>{
+// import IconButton from '@mui/core/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+const AuthModal = ({setShowModal,signUp,setIsLoading})=>{
   const [email,setEmail]                      = useState(null)
   const [password,setPassword]                = useState(null)
   const [confirmPassword,setConfirmPassword]  = useState(null)
@@ -35,6 +36,7 @@ const AuthModal = ({setShowModal,signUp})=>{
       setCookies('AuthToken',response.data.token)
       // console.log(response);
       const success   = response.status ==  201;
+      setIsLoading(false);
       if(success && signUp) navigate("/onboard")
       if(success && !signUp) navigate("/dashboard")
       window.location.reload();
@@ -54,8 +56,8 @@ const AuthModal = ({setShowModal,signUp})=>{
 
   return (
     <div className="auth-modal">
-      <div className="close-icon" onClick={handleClick}>x</div>
-      <h2>{signUp ? "Create Account":"Log In"}</h2>
+      <div className="close-icon" onClick={handleClick}><CloseIcon /></div>
+      <h2>{signUp ? "Create":"Log In"}</h2>
       <p>By clicking Log in, you agree to our terms. Learn how we process our Privacy Policy and Cookie Policy.</p>
       <form onSubmit={handleSubmit}>
         <input type="email" id="email" name="email" placeholder="email"

@@ -6,11 +6,12 @@ function ChatHeader(props) {
   let navigate = useNavigate();
   const [cookies,setCookies,removeCookies]    = useCookies(['user']) 
 
-  const logout  = ()=>{
+  const logout  = ()=>{ 
     removeCookies('UserId',cookies.UserId);
     removeCookies('AuthToken',cookies.AuthToken);
     removeCookies('Email',cookies.Email);
     removeCookies('User',cookies.User);
+    props.setIsLoading(true)
     navigate('/');
     window.location.reload();
 

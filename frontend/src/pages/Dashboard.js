@@ -3,7 +3,7 @@ import ChatContainer from '../components/ChatContainer.js'
 import TinderCard from "react-tinder-card"
 import { useCookies } from "react-cookie"
 import axios from "axios"
-function Dashboard() {
+function Dashboard(props) {
   const [cookies, setCookies, removeCookies] = useCookies(['user'])
   const [user, setUser] = useState(null);
   const [genderedUsers, setGenderedUsers] = useState([]);
@@ -85,6 +85,7 @@ function Dashboard() {
 
 
   useEffect(() => {
+    props.setIsLoading(false)
     getUser()
 
   }, [])
@@ -103,7 +104,7 @@ function Dashboard() {
   return (
     <>
       {user && <div className='dashboard'>
-        <ChatContainer user={user} />
+        <ChatContainer user={user} setIsLoading={props.setIsLoading} />
         <div className='swipe-container'>
           <div className='card-container'>
 
