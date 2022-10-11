@@ -1,16 +1,23 @@
-import React , {useState} from 'react'
+import React , {useEffect, useState} from 'react'
 import Navbar from "../components/Navbar.js"
 import AuthModal from "../components/AuthModal.js"
-function Home() {
-  const [showModal,setShowModal] =useState(false);
-  const [signUp,setIsSignUp] = useState(null);
+function Home(props) {
+  const [showModal,setShowModal]              = useState(false);
+  const [signUp,setIsSignUp]                  = useState(null);
+
   const authToken=false;
   const userAction =  ()  =>{
     setShowModal(true);
     setIsSignUp(true);
   }
+
+
+  // useEffect(()=>{
+  //   setIsLoading(false)
+  // },[]);
+
   return (
-    <div className='overlay'>
+    <div className='overlay' >
     <Navbar minimal={false} authToken={false} setShowModal={setShowModal} showModal={showModal}
     setIsSignUp={setIsSignUp}  />
       <div className="home">

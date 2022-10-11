@@ -8,34 +8,34 @@ function Dashboard() {
   const [user, setUser] = useState(null);
   const [genderedUsers, setGenderedUsers] = useState([]);
   const [lastDirection, setLastDirection] = useState()
-  const db = [
-    {
+  // const db = [
+  //   {
 
-      first_name: 'Scarlet',
-      url: '/images/scarlet.webp'
-    },
+  //     first_name: 'Scarlet',
+  //     url: '/images/scarlet.webp'
+  //   },
 
-    {
-      first_name: 'Elizabeth',
-      url: '/images/elizabeth.webp'
-    },
+  //   {
+  //     first_name: 'Elizabeth',
+  //     url: '/images/elizabeth.webp'
+  //   },
 
-    {
-      first_name: 'Monica Hall',
-      url: '/images/monica.jpg'
-    },
+  //   {
+  //     first_name: 'Monica Hall',
+  //     url: '/images/monica.jpg'
+  //   },
 
-    {
-      first_name: 'Megan',
-      url: '/images/megan.webp'
-    },
+  //   {
+  //     first_name: 'Megan',
+  //     url: '/images/megan.webp'
+  //   },
 
-    {
-      first_name: 'Katrina',
-      url: '/images/katrina.webp'
-    }
-  ]
-  const characters = db
+  //   {
+  //     first_name: 'Katrina',
+  //     url: '/images/katrina.webp'
+  //   }
+  // ]
+  // const characters = db
   const getUser = async () => {
     try {
       const response = await axios.get(`http://localhost:4000/user/${cookies.UserId}`);
@@ -95,6 +95,9 @@ function Dashboard() {
       getGenderedUsers()
       }
     },[user])
+
+    
+
 
 
   return (
