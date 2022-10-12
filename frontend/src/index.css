@@ -219,7 +219,7 @@ nav .logo-container .logo {
 }
 
 .onboard form input[type=number] {
-    width: 10%;
+    width: 50%;
 }
 
 .onboard form input[type=radio]:checked + label {

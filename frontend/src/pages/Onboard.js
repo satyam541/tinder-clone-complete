@@ -6,12 +6,17 @@ import axios from "axios"
 const Onboard = (props) => {
   const [cookies,setCookies,removeCookies]    = useCookies(['user'])  
   const [formData,setFormData] =  useState({user_id:cookies.UserId,first_name:"",dob_day:"",dob_month:"",dob_year:""
-  ,show_gender:false,gender_identity:"man",gender_interest:"woman",email:cookies.email,url:"",about:"",matches:[]});
+  ,show_gender:false,gender_identity:"man",gender_interest:"woman",email:cookies.Email,url:"",about:"",img_file:"",matches:[]});
+  const [uploadImgUrl,setUploadImgUrl]        = useState(true);
   let navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     try
     {
+      const formDataInput   = new FormData();
+      Object.keys(formData).forEach(key => {
+        formDataInput.append(key,formData[key]);
+      });
       const response  = await axios.put(`http://localhost:4000/user/${formData.user_id}`,{formData})
       const success   = response.status ===200;
       if(success) navigate ("/dashboard");
@@ -20,18 +25,26 @@ const Onboard = (props) => {
     {
       console.log(err);
     }
-    // await axios.put();
 
   }
 
   const handleChange = (e) => {
-    const value = e.target.type==='checked' ? e.target.checked : e.target.value
+    let value = e.target.type==='checked' ? e.target.checked : e.target.value
+    value     = e.target.name==='img_file' ? e.target.files[0] : e.target.value
     const name  = e.target.name
-     setFormData((prevState)=>({
-        ...prevState,
-        [name]:value
-    })) 
-    
+
+      setFormData((prevState)=>({
+          ...prevState,
+          [name]:value
+      }))   
+  
+  }
+
+  const setImgUrl = (imgUrl)=>{
+    setFormData((prevState)=>({
+      ...prevState,
+      ["url"]:imgUrl
+  }))
   }
 
 
@@ -101,9 +114,19 @@ const Onboard = (props) => {
               <input type="submit" />
           </section>
           <section>
-            <label htmlFor='url'>Profile Photo</label>
-            <input type="url" name='url' id='url' onChange={handleChange} required={true} />
-            {/* <input type="file" name="file" accept=".jpg, .jpeg, .png" id='file'/> */}
+            <label htmlFor='url'>Profile Photo {uploadImgUrl ? "(check the checkbox to upload url.)" : "(uncheck the checkbox to upload img.)"}
+            <input type="checkbox" style={{width:'14px', margin:"0px 0px 0px 50px"}} onChange={(event)=>{
+               setUploadImgUrl(!event.target.checked);
+               setImgUrl("");
+            }} />
+            </label>
+            {!uploadImgUrl &&  <input type="url" name='url' id='url' onChange={handleChange} required={true} />}
+            {uploadImgUrl && <input type="file" name="img_file" accept=".jpg, .jpeg, .png" onChange={(event)=>{
+
+            let imgUrl  = typeof(event.target.files[0]) ==="undefined" ? "" :URL.createObjectURL(event.target.files[0]);
+            setImgUrl(imgUrl);
+            handleChange(event);
+            }} />}
             <div className='photo-container'>
                 {formData.url && <img src={formData.url} alt="profile pic preview" />}
             </div>
