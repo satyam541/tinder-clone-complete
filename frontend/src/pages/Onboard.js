@@ -17,7 +17,12 @@ const Onboard = (props) => {
       Object.keys(formData).forEach(key => {
         formDataInput.append(key,formData[key]);
       });
-      const response  = await axios.put(`http://localhost:4000/user/${formData.user_id}`,{formData})
+      console.log(formData,formDataInput);
+      const response  = await axios.post(`http://localhost:4000/update/user`,formDataInput,{
+        headers:{
+          "Content-Type": 'multipart/form-data'
+        }
+      })
       const success   = response.status ===200;
       if(success) navigate ("/dashboard");
     }

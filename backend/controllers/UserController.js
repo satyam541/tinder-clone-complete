@@ -1,7 +1,6 @@
 const User              = require("../models/User")
 const asyncErrorHandler = require('../middleware/asyncErrorHandler');
 const ErrorHandler      = require('../utils/errorhandler');
-const APiFeatures       = require('../utils/apifeature');
 const {v4:uuidv4}       = require("uuid");
 const bcrypt            = require("bcrypt");
 const jwt               = require('jsonwebtoken');
@@ -140,8 +139,9 @@ exports.getUser = asyncErrorHandler(async (req,res,next) => {
 });  
 
 exports.updateUser   =   asyncErrorHandler(async (req,res,next) => {
-    let user = await User.findById(req.params.id);
-
+    // let user = await User.findById(req.params.id);
+    console.log(req.body)
+    return false
     if(!user)
     {
         return next(new ErrorHandler('User not found',500));

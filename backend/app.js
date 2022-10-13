@@ -1,12 +1,18 @@
 const express       = require('express');
 const app           = express();
 const cors          = require('cors');
+const Os = require('os');
+Os.tmpDir = Os.tmpdir;
+const fileUpload    = require("express-upload")
 const bodyParser    = require('body-parser');
 app.use(bodyParser.json()); //utilizes the body-parser package
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(fileUpload());
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+    extended: true
+  })); 
 app.use(cors());
 app.use(express.json());
-
+Os.tmpdir()
 const web = require("./routes/web");
 
 // app.use("/app",web);
