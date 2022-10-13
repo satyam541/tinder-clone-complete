@@ -9,6 +9,8 @@ const App = () => {
   const [cookies,setCookies,removeCookies]    = useCookies(['user'])
   const authToken                             = cookies.AuthToken;
   const [isLoading,setIsLoading]              = useState(true);
+
+  
   return (
     <div>
       {isLoading && <LoadingSpinner/>}

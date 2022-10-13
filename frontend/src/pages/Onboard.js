@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar"
 import { useCookies } from "react-cookie"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
+
 const Onboard = (props) => {
   const [cookies,setCookies,removeCookies]    = useCookies(['user'])  
   const [formData,setFormData] =  useState({user_id:cookies.UserId,first_name:"",dob_day:"",dob_month:"",dob_year:""

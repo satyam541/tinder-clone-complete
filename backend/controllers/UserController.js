@@ -138,6 +138,7 @@ exports.getUser = asyncErrorHandler(async (req,res,next) => {
 
 });  
 
+
 exports.updateUser   =   asyncErrorHandler(async (req,res,next) => {
     // let user = await User.findById(req.params.id);
     console.log(req.body)
