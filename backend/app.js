@@ -3,7 +3,7 @@ const app           = express();
 const cors          = require('cors');
 const Os = require('os');
 Os.tmpDir = Os.tmpdir;
-const fileUpload    = require("express-upload")
+const fileUpload    = require("express-fileupload")
 const bodyParser    = require('body-parser');
 app.use(bodyParser.json()); //utilizes the body-parser package
 app.use(fileUpload());

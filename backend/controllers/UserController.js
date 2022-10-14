@@ -5,6 +5,8 @@ const {v4:uuidv4}       = require("uuid");
 const bcrypt            = require("bcrypt");
 const jwt               = require('jsonwebtoken');
 const secret            = "secret";
+const Str = require('@supercharge/strings')
+const express       = require('express');
 exports.createUser = asyncErrorHandler(async (req,res,next) =>{
     const generatedUserId       = uuidv4();
     const hashedPassword        =   await bcrypt.hash(req.body.password,10);
@@ -140,17 +142,33 @@ exports.getUser = asyncErrorHandler(async (req,res,next) => {
 
 
 exports.updateUser   =   asyncErrorHandler(async (req,res,next) => {
-    // let user = await User.findById(req.params.id);
-    console.log(req.body)
-    return false
+    let user = await User.findById(req.body.user_id);
     if(!user)
     {
         return next(new ErrorHandler('User not found',500));
     }
+    let updatedData     =   req.body;
+    if(req.files!==null)
+    {
+        const { dirname } = require('path');
+        let appDir  = String(dirname(require.main.filename));
+        appDir      = Str(appDir).beforeLast(/\//g)     
+        appDir      = appDir.replace(/\\/g, '/');  
+        appDir      = Str(appDir.value).beforeLast("/")     
+        appDir      = appDir.value
+        const file = req.files.img_file;
 
-    user =   await User.findByIdAndUpdate(req.params.id, req.body.formData,{new:true,
+        file.mv(`${appDir}/frontend/public/uploads/${file.name}`, err => {
+            if (err) {
+              console.error(err);
+              return res.status(500).send(err);
+            }
+          });
+          updatedData                 = {...req.body , "url":`/uploads/${file.name}`}
+    }
+    user =   await User.findByIdAndUpdate(req.body.user_id, updatedData,{new:true,
     runValidators:true,useFindAndModify:false});
-
+    
 
     res.status(200).json({success:true,
         message:"User updated successfully updated",user});
